@@ -5,18 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace NerdStore.Core.DomainObjects
 {
-    //AssertConcern Vernon's Tip
-    public class Validations
+    public class AssertConcern
     {
         public static void ValidateIfEqual(object object1, object object2, string message)
-        {
-            if (!object1.Equals(object2))
-            {
-                throw new DomainException(message);
-            }
-        }
-
-        public static void ValidateIfDifferent(object object1, object object2, string message)
         {
             if (object1.Equals(object2))
             {
@@ -24,7 +15,25 @@ namespace NerdStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateCharacters(string value, int maximum, string message)
+        public static void ValidateIfDifferent(object object1, object object2, string message)
+        {
+            if (!object1.Equals(object2))
+            {
+                throw new DomainException(message);
+            }
+        }
+
+        public static void ValidateIfDifferent(string pattern, string value, string message)
+        {
+            var regex = new Regex(pattern);
+
+            if (!regex.IsMatch(value))
+            {
+                throw new DomainException(message);
+            }
+        }
+
+        public static void ValidateSize(string value, int maximum, string message)
         {
             if(value.Trim().Length > maximum)
             {
@@ -32,20 +41,10 @@ namespace NerdStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateCharacters(string value, int minimum, int maximum, string message)
+        public static void ValidateSize(string value, int minimum, int maximum, string message)
         {
             int length = value.Trim().Length;
             if(length < minimum || length > maximum)
-            {
-                throw new DomainException(message);
-            }
-        }
-
-        public static void ValidateExpression(string pattern, string value, string message)
-        {
-            var regex = new Regex(pattern);
-
-            if (!regex.IsMatch(value))
             {
                 throw new DomainException(message);
             }
@@ -115,33 +114,33 @@ namespace NerdStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateIfMinorEqualMinimum(double value, double minimum, string message)
+        public static void ValidateIfLessThan(double value, double minimum, string message)
         {
-            if (value <= minimum)
+            if (value < minimum)
             {
                 throw new DomainException(message);
             }
         }
 
-        public static void ValidateIfMinorEqualMinimum(decimal value, decimal minimum, string message)
+        public static void ValidateIfLessThan(decimal value, decimal minimum, string message)
         {
-            if (value <= minimum)
+            if (value < minimum)
             {
                 throw new DomainException(message);
             }
         }
 
-        public static void ValidateIfMinorEqualMinimum(int value, int minimum, string message)
+        public static void ValidateIfLessThan(int value, int minimum, string message)
         {
-            if (value <= minimum)
+            if (value < minimum)
             {
                 throw new DomainException(message);
             }
         }
 
-        public static void ValidateIfMinorEqualMinimum(float value, float minimum, string message)
+        public static void ValidateIfLessThan(float value, float minimum, string message)
         {
-            if (value <= minimum)
+            if (value < minimum)
             {
                 throw new DomainException(message);
             }
@@ -149,7 +148,7 @@ namespace NerdStore.Core.DomainObjects
 
         public static void ValidateIfFalse(bool value, string message)
         {
-            if (value)
+            if (!value)
             {
                 throw new DomainException(message);
             }
@@ -157,7 +156,7 @@ namespace NerdStore.Core.DomainObjects
 
         public static void ValidateIfTrue(bool value, string message)
         {
-            if (!value)
+            if (value)
             {
                 throw new DomainException(message);
             }

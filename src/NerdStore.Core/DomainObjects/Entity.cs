@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NerdStore.Core.DomainObjects
 {
@@ -11,6 +9,11 @@ namespace NerdStore.Core.DomainObjects
         protected Entity()
         {
             Id = Guid.NewGuid();
+        }
+
+        public virtual bool IsValid()
+        {
+            throw new NotImplementedException();
         }
 
         public override bool Equals(object obj)
