@@ -22,14 +22,15 @@ namespace NerdStore.Catalog.Domain
         //EF ctor
         public Product() { }
 
-        public Product(string name, string description, bool isActive, decimal value, Guid imageId, Guid categoryId, Dimensions dimensions)
+        public Product(string name, string description, bool isActive, decimal value, File image, Guid categoryId, Dimensions dimensions)
         {
             Name = name;
             Description = description;
             IsActive = isActive;
             Value = value;
             CreatedAt = DateTime.Now;
-            ImageId = imageId;
+            Image = image;
+            ImageId = image.Id;
             CategoryId = categoryId;
             Dimensions = dimensions;
 
@@ -74,6 +75,7 @@ namespace NerdStore.Catalog.Domain
             AssertConcern.ValidateIfEmpty(Name, "O campo Nome do produto não pode estar vazio");
             AssertConcern.ValidateIfEmpty(Description, "O campo Descrição do produto não pode estar vazio");
             AssertConcern.ValidateIfEqual(CategoryId, Guid.Empty, "O campo CategoriaId do produto não pode estar vazio");
+            AssertConcern.ValidateIfNull(Image, "O campo Imagem não pode estar vazio");
             AssertConcern.ValidateIfLessThan(Value, 1, "O campo Valor do produto não pode ser menor ou igual a 0");
             AssertConcern.ValidateIfEqual(ImageId, Guid.Empty, "O campo ImagemId do produto não pode estar vazio");
         }
